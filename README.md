@@ -6,7 +6,7 @@
 - https://github.com/ethereum/EIPs
   - [ERC20](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md): 就是以太坊的标准接口
      - 作用：为了让各类token合约有一个特征与接口的共同标准
-  - [ERC721] ：以太坊token的标准接口（不可以分割的资产）
+  - ERC721：以太坊token的标准接口（不可以分割的资产）
      - 与ERC20相比，ERC721 是用于处理不可以分割替换的资产的另外一种代币标准，不可以替换类似于房屋，家具等等
      - 又叫NFT
 
@@ -57,13 +57,15 @@ npm install openzeppelin-solidity
   - Rbac 
     - [Roles.sol](node_modules/openzeppelin-solidity/contracts/access/rbac/Roles.sol) 角色管理
     - [RBAC.sol ](node_modules/openzeppelin-solidity/contracts/access/rbac/RBAC.sol)角色拓展
-   -  [Ownable.so](node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol) 合约所有权的管理
+  -  [Ownable.so](node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol) 合约所有权的管理
+  - [CanReclaimToken.sol](node_modules/openzeppelin-solidity/contracts/ownership/CanReclaimToken.sol)  可回收的token
+  - [Claimable.sol](node_modules/openzeppelin-solidity/contracts/ownership/Claimable.sol) 合约的拓展
 -  Access详解
    - [SignatureBouncer.sol](node_modules/openzeppelin-solidity/contracts/access/SignatureBouncer.sol) 签名保护合约，只有指定的角色才能进行签名
    - [Whitelist.sol](node_modules/openzeppelin-solidity/contracts/access/Whitelist.sol) 白名单
 - introspection:
    - [ERC165.sol](node_modules/openzeppelin-solidity/contracts/introspection/ERC165.sol)   创建和发布一个标准方法 **用于检查智能合约实现的接口
-   - [SupportsInterfaceWithLookup.sol] (node_modules/openzeppelin-solidity/contracts/introspection/SupportsInterfaceWithLookup.sol) 支持查找的接口
+- [SupportsInterfaceWithLookup.sol](node_modules/openzeppelin-solidity/contracts/introspection/SupportsInterfaceWithLookup.sol) 支持查找的接口
 - Proposals:
    - [TokenMetadata.sol](node_modules/openzeppelin-solidity/contracts/proposals/ERC1046/TokenMetadata.sol) 对ERC-URI的设置
 - Token
@@ -103,10 +105,6 @@ npm install openzeppelin-solidity
        ```
                 function removeTokenFrom(address _from, uint256 _tokenId) internal {
             super.removeTokenFrom(_from, _tokenId);
-
-            // To prevent a gap in the array, we store the last token in the index of the token to delete, and
-            // then delete the last slot.
-
             uint256 tokenIndex = ownedTokensIndex[_tokenId];
             uint256 lastTokenIndex = ownedTokens[_from].length.sub(1);
             //获取lasttoken
@@ -117,11 +115,6 @@ npm install openzeppelin-solidity
             // This also deletes the contents at the last position of the array
         // 总长度-1
             ownedTokens[_from].length--;
-
-            // Note that this will handle single-element arrays. In that case, both tokenIndex and lastTokenIndex are going to
-            // be zero. Then we can make sure that we will remove _tokenId from the ownedTokens list since we are first swapping
-            // the lastToken to the first position, and then dropping the element placed in the last position of the list
-            
             ownedTokensIndex[_tokenId] = 0;
             ownedTokensIndex[lastToken] = tokenIndex;
         }
