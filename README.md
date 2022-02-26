@@ -8,6 +8,7 @@
      - 作用：为了让各类token合约有一个特征与接口的共同标准
   - [ERC721] ：以太坊token的标准接口（不可以分割的资产）
      - 与ERC20相比，ERC721 是用于处理不可以分割替换的资产的另外一种代币标准，不可以替换类似于房屋，家具等等
+     - 又叫NFT
 
 - 安装  openzeppelin-solidity@1.12.0
 ```
@@ -75,3 +76,54 @@ npm install openzeppelin-solidity
        balances[_from] = balances[_from].sub(_value);
        balances[_to] = balances[_to].add(_value);
       ``` 
+      - [MintableToken.sol](node_modules/openzeppelin-solidity/contracts/token/ERC20/MintableToken.sol) 铸币合约
+      - [CappedToken.sol](node_modules/openzeppelin-solidity/contracts/token/ERC20/CappedToken.sol) 铸币上限
+      - [DetailedERC20.sol](node_modules/openzeppelin-solidity/contracts/token/ERC20/DetailedERC20.sol)   ERC20代币的名字符号
+      - [Pausable.sol](node_modules/openzeppelin-solidity/contracts/lifecycle/Pausable.sol) 暂停合约
+      - [RBACMintableToken.sol](node_modules/openzeppelin-solidity/contracts/token/ERC20/RBACMintableToken.sol) 对于铸币的权限
+      - [StandardBurnableToken.sol](node_modules/openzeppelin-solidity/contracts/token/ERC20/StandardBurnableToken.sol) 标准token销毁
+      - [TokenTimelock.sol](node_modules/openzeppelin-solidity/contracts/token/ERC20/TokenTimelock.sol) 锁定
+      - [TokenVesting.sol](node_modules/openzeppelin-solidity/contracts/token/ERC20/TokenVesting.sol) 释放
+  - ERC721
+      - [AddressUtils.sol](node_modules/openzeppelin-solidity/contracts/AddressUtils.sol) 地址工具
+      ```
+       // 判断指定账户是否是合约账户
+        function isContract(address _addr) internal view returns (bool) {
+            uint256 size;
+        
+            // extcodesize 底层函数 确定是合约账户
+            assembly { size := extcodesize(_addr) }
+            return size > 0;
+        }
+      ``` 
+      - [ERC721.sol](node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721.sol) NFT元信息
+      - [ERC721Basic.sol](node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721Basic.sol) 接口原型
+      - [ERC721BasicToken.sol](node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721BasicToken.sol) 基本实现
+      - [ERC721Token.sol](node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721Token.sol) 拓展实现,删除算法看一下
+       ```
+                function removeTokenFrom(address _from, uint256 _tokenId) internal {
+            super.removeTokenFrom(_from, _tokenId);
+
+            // To prevent a gap in the array, we store the last token in the index of the token to delete, and
+            // then delete the last slot.
+
+            uint256 tokenIndex = ownedTokensIndex[_tokenId];
+            uint256 lastTokenIndex = ownedTokens[_from].length.sub(1);
+            //获取lasttoken
+            uint256 lastToken = ownedTokens[_from][lastTokenIndex];
+
+        //把lasttoken 置于删除的位置
+            ownedTokens[_from][tokenIndex] = lastToken;
+            // This also deletes the contents at the last position of the array
+        // 总长度-1
+            ownedTokens[_from].length--;
+
+            // Note that this will handle single-element arrays. In that case, both tokenIndex and lastTokenIndex are going to
+            // be zero. Then we can make sure that we will remove _tokenId from the ownedTokens list since we are first swapping
+            // the lastToken to the first position, and then dropping the element placed in the last position of the list
+            
+            ownedTokensIndex[_tokenId] = 0;
+            ownedTokensIndex[lastToken] = tokenIndex;
+        }
+       ``` 
+
