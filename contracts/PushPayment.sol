@@ -61,7 +61,7 @@ contract PullContract{
 
     }
 
-     // 退款与bid相隔离
+     // 退款与bid相隔离,单独处理退款
      // external 可供外部调用,内部调用需要加this external不能修改状态变量
     function withdrawBid() external{
         uint refund =refunds[msg.sender];
