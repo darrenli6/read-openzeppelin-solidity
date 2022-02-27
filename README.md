@@ -9,6 +9,11 @@
   - ERC721：以太坊token的标准接口（不可以分割的资产）
      - 与ERC20相比，ERC721 是用于处理不可以分割替换的资产的另外一种代币标准，不可以替换类似于房屋，家具等等
      - 又叫NFT
+- 支付模式:
+  - 推送 push 合约主动调用
+  - 拉取 pull 用户主动触发
+  - 实例: 简单竞标说明
+  - 只有一个功能,在竞标过程中,当有更高的价格产生,对出价最高的竞标者的信息进行了更新,合约把之前哪一个的竞价退回去
 
 - 安装  openzeppelin-solidity@1.12.0
 ```
@@ -53,6 +58,18 @@ npm install openzeppelin-solidity
     }
     ``` 
   - [Math.sol](node_modules/openzeppelin-solidity/contracts/math/Math.sol)  uint256与uint64的最值比较
+- [payment](node_modules/openzeppelin-solidity/contracts/payment) 用于支付管理
+- lifecycle 合约的生命周期
+- Crowdsale 众筹
+  - [Crowdsale.sol](node_modules/openzeppelin-solidity/contracts/crowdsale/Crowdsale.sol) 众筹的合约
+  - [CappedCrowdsale.sol](node_modules/openzeppelin-solidity/contracts/crowdsale/validation/CappedCrowdsale.sol) 众筹上限
+  - [WhitelistedCrowdsale.sol](node_modules/openzeppelin-solidity/contracts/crowdsale/validation/WhitelistedCrowdsale.sol) 白名单
+  - [TimedCrowdsale.sol](node_modules/openzeppelin-solidity/contracts/crowdsale/validation/TimedCrowdsale.sol) 众筹的时间范围
+  - [IndividuallyCappedCrowdsale.sol](node_modules/openzeppelin-solidity/contracts/crowdsale/validation/IndividuallyCappedCrowdsale.sol)个人众筹的上限
+  - [IncreasingPriceCrowdsale.sol](node_modules/openzeppelin-solidity/contracts/crowdsale/price/IncreasingPriceCrowdsale.sol) token价格变动
+  - [PostDeliveryCrowdsale](node_modules/openzeppelin-solidity/contracts/crowdsale/distribution/PostDeliveryCrowdsale.sol) 锁仓
+  - [RefundableCrowdsale.sol](node_modules/openzeppelin-solidity/contracts/crowdsale/distribution/RefundableCrowdsale.sol) 众筹退款
+  - [FinalizableCrowdsale.sol](node_modules/openzeppelin-solidity/contracts/crowdsale/distribution/FinalizableCrowdsale.sol) 众筹完成之后的操作
 - Ownership 详解
   - Rbac 
     - [Roles.sol](node_modules/openzeppelin-solidity/contracts/access/rbac/Roles.sol) 角色管理
@@ -60,6 +77,12 @@ npm install openzeppelin-solidity
   -  [Ownable.so](node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol) 合约所有权的管理
   - [CanReclaimToken.sol](node_modules/openzeppelin-solidity/contracts/ownership/CanReclaimToken.sol)  可回收的token
   - [Claimable.sol](node_modules/openzeppelin-solidity/contracts/ownership/Claimable.sol) 合约的拓展
+  - [DelayedClaimable.sol](node_modules/openzeppelin-solidity/contracts/ownership/DelayedClaimable.sol) 添加了区块限制的合约所有权转移
+  - [HasNoContracts.sol](node_modules/openzeppelin-solidity/contracts/ownership/HasNoContracts.sol) 合约回收
+  - [HasNoEther.sol](node_modules/openzeppelin-solidity/contracts/ownership/HasNoEther.sol)锁定指定的合约
+  - [Heritable.sol](node_modules/openzeppelin-solidity/contracts/ownership/Heritable.sol) 合约继承者
+  - [Ownable.sol](node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol) 所有权的管理
+  - [Superuser.sol](node_modules/openzeppelin-solidity/contracts/ownership/Superuser.sol) 超级用户的管理
 -  Access详解
    - [SignatureBouncer.sol](node_modules/openzeppelin-solidity/contracts/access/SignatureBouncer.sol) 签名保护合约，只有指定的角色才能进行签名
    - [Whitelist.sol](node_modules/openzeppelin-solidity/contracts/access/Whitelist.sol) 白名单
